@@ -1,0 +1,2 @@
+module CustomerSuggestsHelper
+end

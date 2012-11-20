@@ -1,0 +1,16 @@
+var CustomersData = {
+    Rows:[
+        <%- @customers.each_with_index do |customer, index| %>
+            {
+                "CustomerID": "<%= customer.id.to_s() %>",
+                "Name": "<%= customer.name %>",
+                "Sex": "<%= customer.gender.to_s() %>",
+                "Telephone": "<%= customer.telephone %>",
+                "Province": "<%= customer.address %>",
+                "Model": "<%= customer.model %>",
+                "Sn": "<%= customer.sn %>",
+                "Email": "<%= customer.email %>"
+            }<%- if index < @customers_count - 1 %>,<%- end %>
+        <%- end %>
+    ],Total:<%=@customers_count%>
+};

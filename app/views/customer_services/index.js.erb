@@ -1,0 +1,17 @@
+var CustomersData = {
+    Rows:[
+        <%- @products.each_with_index do |customer_product, index| %>
+            {
+                "productID": "<%= customer_product.id.to_s() %>",
+				"service_reception_personnel": "<%= customer_product.service_reception_personnel %>",
+				"model": "<%= customer_product.model %>",
+				"sn": "<%= customer_product.sn %>",
+				"repairDate": "<%= customer_product.repairDate %>",
+				"repairAddress": "<%= customer_product.repairAddress %>",
+				"repairMan": "<%= customer_product.repairMan %>",
+				"faultKind": "<%= customer_product.faultKind %>"
+
+            }<%- if index < @products_count - 1 %>,<%- end %>
+        <%- end %>
+    ],Total:<%=@products_count%>
+};

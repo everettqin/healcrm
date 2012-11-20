@@ -1,0 +1,149 @@
+
+
+<script type="text/javascript">
+    var eee;
+    $(function () {
+        $.metadata.setType("attr", "validate");
+        var v = $("form").validate({
+            //调试状态，不会提交数据的
+            debug: false,
+            errorPlacement: function (lable, element) {
+
+                if (element.hasClass("l-textarea")) {
+                    element.addClass("l-textarea-invalid");
+                }
+                else if (element.hasClass("l-text-field")) {
+                    element.parent().addClass("l-text-invalid");
+                }
+
+                var nextCell = element.parents("td:first").next("td");
+                nextCell.find("div.l-exclamation").remove();
+                $('<div class="l-exclamation" title="' + lable.html() + '"></div>').appendTo(nextCell).ligerTip();
+            },
+            success: function (lable) {
+                var element = $("#" + lable.attr("for"));
+                var nextCell = element.parents("td:first").next("td");
+                if (element.hasClass("l-textarea")) {
+                    element.removeClass("l-textarea-invalid");
+                }
+                else if (element.hasClass("l-text-field")) {
+                    element.parent().removeClass("l-text-invalid");
+                }
+                nextCell.find("div.l-exclamation").remove();
+            },
+            
+        });
+        $("form").ligerForm();
+        $(".l-button-test").click(function () {
+            alert(v.element($("#txtName")));
+        });
+    });
+</script>
+<style type="text/css">
+    body{ font-size:12px;}
+    .l-table-edit {}
+    .l-table-edit-td{ padding:4px;}
+    .l-button-submit,.l-button-test{width:80px; float:left; margin-left:10px; padding-bottom:2px;}
+    .l-verify-tip{ left:230px; top:120px;}
+</style>
+<%= form_for @customer_product, :url => { :action => "update" }, :html => {:class => "nifty_form"} do |f| %>
+  
+
+<table cellpadding="0" cellspacing="0" class="l-table-edit" >
+  <tr>
+    <td align="right" class="l-table-edit-td">产品名:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%= f.text_field(:name,:ltype=>"text",:validate=>"{required:true,minlength:3,maxlength:10}")%>
+	</td>
+    <td align="left"></td>
+  </tr>
+<tr>
+    <td align="right" class="l-table-edit-td">产品序列号:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%= f.text_field(:sn,:ltype=>"text",:validate=>"{required:true}")%>
+	</td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right" class="l-table-edit-td">产品编号:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%= f.text_field(:no,:ltype=>"text",:validate=>"{required:true}")%>
+	</td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right" class="l-table-edit-td">购买时间:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%= f.text_field(:buyTime,:ltype=>"date",:validate=>"{required:false}")%>
+    </td><td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right" class="l-table-edit-td">销售机构:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%= f.text_field(:salesAgency,:ltype=>"text",:validate=>"{required:false}")%>
+	</td>
+    <td align="left"></td>
+  </tr>
+    <tr>
+    <td align="right" class="l-table-edit-td">销售人员:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%= f.text_field(:sales,:ltype=>"text",:validate=>"{required:false}")%>
+	</td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right" class="l-table-edit-td">是否面见客户本人:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%=f.check_box(:isSeeCustomer,{},"1", "0")%>
+	</td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right" class="l-table-edit-td">使用指导:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%= f.text_area(:guidance,:ltype=>"text",:validate=>"{required:false}",:cols=>"25",:rows=>"3")%>
+	</td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right" class="l-table-edit-td">出库单号:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%= f.text_field(:outboundNumber,:ltype=>"text",:validate=>"{required:false}")%>
+	</td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right" class="l-table-edit-td">使用人:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%= f.text_field(:user,:ltype=>"text",:validate=>"{required:false}")%>
+	</td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right" class="l-table-edit-td">价格:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%= f.text_field(:price,:ltype=>"text",:validate=>"{required:false}")%>
+	</td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right" class="l-table-edit-td">质保到期日:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%= f.text_field(:expiryDate,:ltype=>"date",:validate=>"{required:false}")%>
+	</td>
+    <td align="left"></td>
+  </tr>
+  <tr>
+    <td align="right" class="l-table-edit-td">状态:</td>
+    <td align="left" class="l-table-edit-td" style="width:160px">
+	<%=f.select :state, {"使用中"=>"1","停用"=>"2","身故"=>"3"},:ltype=>"select",:validate=>"{required:true}"%>
+	</td>
+    <td align="left"></td>
+  </tr>
+</table>
+<br />
+  <%= submit_tag "提交", :class => "l-button l-button-submit"%>
+  &nbsp;&nbsp;
+  <%=button_to_function "取消", "history.go(-1)", :class => "l-button l-button-submit"%>
+<% end %>
+

@@ -1,0 +1,28 @@
+﻿<%= form_tag('/login') do -%>
+    <% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+<fieldset>
+    <div>
+      <ol class="onehub_sign_in">
+        <li>
+          <label for="login_email">Email</label>
+		  <%= text_field("login","email",:size=>"30",:placeholder=>"Email Address",:autocomplete => "on")%>
+        </li>
+        <li>
+          <label for="login_password">Password</label>
+		  <%= password_field("login","password",:size=>"36",:placeholder=>"Password")%>
+        </li>
+      </ol>
+      <label class="checkbox" for="remember_checkbox_onehub">
+        <input name="login[remember_me]" type="hidden" value="0" /><input id="remember_checkbox_onehub" name="login[remember_me]" type="checkbox" value="1" />  记住用户名
+      </label>
+      <div class="buttons onehub_sign_in">
+        <button type="submit" class="positive" id="login_button">Login</button>
+      </div>
+      <div class="sso_sign_in" style="display:none;">
+      </div>
+    </div>
+  </fieldset>
+<%end-%>
+     

@@ -1,0 +1,12 @@
+var CustomersData = {
+    Rows:[
+        <%- @products.each_with_index do |customer_product, index| %>
+            {
+                "productID": "<%= customer_product.id.to_s() %>",
+				"content": "<%= customer_product.content %>",
+				"receptioner": "<%= customer_product.receptioner %>",
+				"suggestDate": "<%= customer_product.suggestDate %>"
+            }<%- if index < @products_count - 1 %>,<%- end %>
+        <%- end %>
+    ],Total:<%=@products_count%>
+};

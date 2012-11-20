@@ -1,0 +1,94 @@
+<script src="/lib/ligerUI/js/plugins/ligerDrag.js" type="text/javascript"></script>
+<script src="/lib/ligerUI/js/plugins/ligerDialog.js" type="text/javascript"></script>
+<script src="/customers/<%=params[:id]%>/products.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var manager, g;
+    function itemclick(item)
+    {
+        if(item.text=="增加")
+           window.location.href="/customers/<%=params[:id]%>/products/add"
+		else{
+			$.ligerDialog.confirm('确认删除吗？', function (yes)
+                     {
+                         if(yes){
+							var rows = manager.getSelectedRows();
+							var ids = "";
+							for each(var item in rows)
+								ids+=item.productID+",";
+								if(ids!="")
+								window.location.href="/customers/<%=params[:id]%>/products/destroy/"+ids;
+								else
+								  $.ligerDialog.alert("为选择任何选项!");
+						 }
+                     });
+			}
+    }
+
+
+    $(function ()
+    {
+        g =  manager =$("#maingrid").ligerGrid({
+            columns: [
+                {display: 'Id', name: 'productID', align: 'center', width: 40 } ,
+                { display: '产品名', name: 'name', minWidth: 140 },
+                { display: '序列号', name: 'sn', minWidth: 140 },
+                { display: '编号', name: 'no', minWidth: 140 },
+                { display: '价格', name: 'price', minWidth: 140 },
+                { display: '销售人员', name: 'sales',minWidth: 180 },
+                { display: '购买日期', name: 'buyTime',minWidth: 200 },
+				{
+                    display: '操作', isAllowHide: false,   minWidth: 320 ,
+                    render: function (row)
+                    {
+                        var html = '<a href="/customers/<%=params[:id]%>/products/edit/'+row.productID+'">编辑</a>';
+                        return html;
+                    }
+                }
+            ], data: CustomersData, pageSize: 20, sortName: 'CustomerID',
+            width: '100%', height: '100%' ,rownumbers:false,   checkbox:true,
+            toolbar: { items: [
+                { text: '增加', click: itemclick, icon: 'add' },
+                { line: true },
+                { text: '删除', click: itemclick, img: '../../../lib/ligerUI/skins/icons/delete.gif' }
+            ]
+            }
+        });
+        $("#pageloading").hide();
+    });
+    function deleteRow()
+    {
+        g.deleteSelectedRow();
+    }
+
+	function f_search()
+        {
+            manager.options.data = $.extend(true, {}, CustomersData);
+            manager.loadData(f_getWhere());
+        }
+        function f_getWhere()
+        {
+            if (!manager) return null;
+            var clause = function (rowdata, rowindex)
+            {
+                var key = $("#txtKey").val();
+                return rowdata.name.indexOf(key) > -1 || rowdata.sn.indexOf(key) > -1;
+            };
+            return clause;
+        }
+
+</script>
+<div class="l-loading" style="display:block" id="pageloading"></div>
+<a class="l-button" style="width:120px;float:left; margin-left:10px; display:none;" onclick="deleteRow()">删除选择的行</a>
+
+<div id="searchbar">
+    <input id="txtKey" type="text" />
+    <input id="btnOK" type="button" value="search" onclick="f_search()" />
+</div>
+<div class="l-clear"></div>
+
+<div id="maingrid"></div>
+
+<div style="display:none;">
+
+</div>
+</div>

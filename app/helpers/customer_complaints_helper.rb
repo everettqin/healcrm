@@ -1,0 +1,2 @@
+module CustomerComplaintsHelper
+end
